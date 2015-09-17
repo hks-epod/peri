@@ -1,0 +1,15 @@
+# Data #
+########
+*.xls*
+*.doc*
+*.png
+*.dta
+*.csv
+*.dbf
+
+# Because GitHub told me so #
+#############################
+*.zip
+.DS_Store
+
+
