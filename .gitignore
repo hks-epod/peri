@@ -6,6 +6,7 @@
 *.dta
 *.csv
 *.dbf
+*.log
 
 # Because GitHub told me so #
 #############################
