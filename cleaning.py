@@ -6,9 +6,10 @@ import sys
 from dbfpy import dbf
 
 
-INPUT = "/Users/angelaambroz/Dropbox (Personal)/EPoD (Personal)/Data analytics/Pakistan - Commodity pricing/example-data/Price data from year 2003 to date/"
-OUTPUT = "/Users/angelaambroz/Dropbox (Personal)/EPoD (Personal)/Data analytics/Pakistan - Commodity pricing/example-data/price-data-clean/"
-DIR = "/Users/angelaambroz/Dropbox (Personal)/EPoD (Personal)/Data analytics/Pakistan - Commodity pricing/example-data/"
+# Globals/Relative references
+
+DIR = os.getcwd()
+INPUT = DIR + "example-data/Price data from year 2003 to date/"
 BASE_YEAR = 2003
 
 

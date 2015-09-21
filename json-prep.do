@@ -50,25 +50,43 @@ log using "$peri/logs/`date'_Logged_at_`cti'_by_`c(username)'.log", replace
 *** Importing data	**
 ************************
 
+//so much easier in python...
+forval i=3/15 {
+	local year = 2000 + `i'
+	local files_`i' : dir "$peridata/Price_`year'" files "*.csv"
+	
+	//NOTE: APR03 is zero bytes, don't know why yet.
+	
+	foreach file in `files_`i'' {
+		
+		di as error "Now doing: `file'"
+	
+		insheet using "$peridata/Price_`year'/`file'", clear
 
-insheet using "$peridata/Price_2003/AUG03.csv", clear
+		//NOTE: this isn't working for initial items (1-10?), which is weird
+		//will worry about it later, since this is a demo/proof of concept
+		reshape long itm pra prb, i(sortcod dte) j(test)
 
-//this isn't working for all items, which is weird
-//will worry about it later, since this is a demo/proof of concept
-reshape long itm pra prb, i(sortcod dte) j(test)
+		g date = date(dte, "YMD")
+		format date  %td
 
-g date = date(dte, "YMD")
+		keep sortcod date ctyp div wek itm pra prb
+		drop if itm==.
 
-keep sortcod dte ctyp div wek itm pra prb
-drop if itm==.
+		//average pra and prb, i guess. 
+		egen avg = rowmean(pra prb)
+		drop if avg<pra //(since i think prb is wrong in these cases)
 
-//average pra and prb, i guess. 
-egen avg = rowmean(pra prb)
-drop if avg<pra //(since i think prb is wrong in these cases)
+		tempfile temp_`i'
+		save `temp_`i'', replace		
+	}
+}
 
-//JSONify: nested w/in divs? or w/in dates?
+forval i=3/15 {
+	append using `temp_`i''
+}
 
-
+save "$peridata/alldata", replace
 
 
 
