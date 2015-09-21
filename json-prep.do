@@ -87,7 +87,7 @@ forval i=3/15 {
 }
 
 save "$peridata/alldata", replace
-
+outsheet using "$peridata/alldata.csv", c replace
 
 
 
