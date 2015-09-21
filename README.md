@@ -19,14 +19,14 @@ SORTCOD | CTYP | DIV | DTE | WEK | ITM01 | PRA01 | PRB01 | ... | ITM35 | PRA35 |
 int | int | int | yyyy-mm-dd | int | int | int | int | ... | int | int | int
 
 where
-> SORTCOD = ?
-> CTYP = commodity type?
-> DIV = geographic region/division?
-> DTE = date
-> WEK = ?
-> ITM = the commodity
-> PRA = min price
-> PRB = max price
+* SORTCOD = ?
+* CTYP = commodity type?
+* DIV = geographic region/division?
+* DTE = date
+* WEK = ?
+* ITM = the commodity
+* PRA = min price
+* PRB = max price
 
 So we need to `reshape` it from wide to long. Final, desired output would be a JSON array of commodities, where each commodity is an object with date-price data.
 
