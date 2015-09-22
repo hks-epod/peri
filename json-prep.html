@@ -12,24 +12,18 @@
 
 
 function nodify(d, i) {
-	// Destringing, etc.
-	// (+ changes types, returning 0 instead of null/missing)
 
-// Not working :(
-	// var strings = [d.avg, d.ctyp, d.pra, d.prb];
-	// var stringsLength = strings.length;
+	function deString(str) {
+		if (str==="") {
+			return "";
+		} else {
+			return +str;
+		}
+	}
 
-	// for (i=0; i++; i<stringsLength) {
-	// 	if (strings[i]==="") {
-	// 		return NaN;
-	// 	} else {
-	// 		strings[i] = +strings[i];
-	// 	}
-	// };
-
-	d.avg = +d.avg;
-	d.pra = +d.pra;
-	d.prb = +d.prb;
+	d.avg = deString(d.avg);
+	d.pra = deString(d.pra);
+	d.prb = deString(d.prb);
 
 	return d;
 
@@ -40,9 +34,14 @@ function viz(data) {
 	dataset = d3.nest()
 				.key(function(d) { return d.div; })
 				.key(function(d) { return d.itm; })
-				.entries(data);
+				.rollup(function(v) {
+					return v.map(function(d) {
+						return [d.date,d.avg]
+					});
+				})
+				.map(data);
 
-	console.log(dataset);
+	console.log(JSON.stringify(dataset));
 
 	// Then used Chrome dev tools to copy array of objects.
 	// Saved into example-data/(blah)/alldata.json.
