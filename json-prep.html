@@ -11,20 +11,20 @@
 
 function nodify(d, i) {
 	// Destringing, etc.
+	// (+ changes types, returning 0 instead of null/missing)
+
 	d.avg = +d.avg;
 	d.ctyp = +d.ctyp;
-	d.itm = +d.itm;
 	d.pra = +d.pra;
 	d.prb = +d.prb;
 	d.sortcod = +d.sortcod;
 	d.wek = +d.wek;
-	d.div = +d.div;
+
+	return d;
 
 }
 
 function viz(data) {
-
-	console.log(data);
 
 	dataset = d3.nest()
 				.key(function(d) { return d.div; })
@@ -32,6 +32,9 @@ function viz(data) {
 				.entries(data);
 
 	console.log(dataset);
+
+	// Then used Chrome dev tools to copy array of objects.
+	// Saved into example-data/(blah)/alldata.json.
 
 }
 
