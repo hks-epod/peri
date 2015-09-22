@@ -30,34 +30,30 @@ where
 
 So we need to `reshape` it from wide to long. Final, desired output would be a JSON array of commodities, where each commodity is an object with date-price data.
 
-```
+```javascript
 [
 	{
-		"ITM": 01,
-		"price-history": [
+		"item": 01
+		"regions": [
 			{
-				"DTE": yyyy-mm-dd,
-				"prices": {
-					"min": 10,
-					"max": 11
-				}
-			},
-			{
-				"DTE": yyyy-mm-dd,
-				"prices": {
-					"min": 11,
-					"max": 12
-				}
-			}
-			]
-	},
+				"div": 01
+				"history": [{ "date": 2003-08-01, "min": 10, "max": 11},...,{"date": 2015-09-22, "min": 12, "max": 13}]
+			} //division closer			
+		] //price-history across all divisions closer
+	}, //item closer
 	{
-		"ITM": 02,
-		"price-history": [{date-min-max}, {date-min-max}, ...]
-	}
+		"item": 02
+		"regions": [
+			{
+				"div": 01
+				"history": [{ "date": 2003-08-01, "min": 55, "max": 57},...,{"date": 2015-09-22, "min": 100, "max": 103}]
+			} //division closer			
+		] //price-history across all divisions closer
+	} //item closer
 ]
 
 ```
+
 
 
 ### Resources

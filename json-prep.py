@@ -18,33 +18,23 @@ output = []
 with open(DIR + "/example-data/Price data from year 2003 to date/alldata.csv") as csv_file:
     for prices in csv.DictReader(csv_file):
 
-    	output.append({
-    		 "item": prices["itm"],
-    		 
-    		 "div": []
+    	item = {}
 
-    		 output["div"].append(prices["div"])
+    	item["item"] = prices["itm"]
+    	item["regions"] = []
 
-    		}) #item closer
+    	item["regions"].append({
+    		"div": prices["div"],
+    		"history": [{
+    			"date": prices["date"],
+    			"min": prices["pra"],
+    			"max": prices["prb"]
+    			}] # price-history closer
+    		}) # regions closer
 
-        # output["item"] = prices["itm"]
-        # output["div"] = prices["div"]
-        
-        # output["div"].append({
-        # 	output["history"] = {}
+    	output.append(item)
 
-        # 	output["history"].append(
-        # 		output["date"] = prices["date"]
-        # 		output["price"] = {}
 
-        # 		output["price"].append({
-        # 				output["min"] = prices["pra"]
-        # 				output["max"] = prices["prb"]
-        	# 		}) #date closer
-
-        	# 	) #division's history closer
-
-        	# }) #division object closer
 
 
 output_json = json.dumps(output)
