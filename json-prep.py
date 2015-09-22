@@ -4,6 +4,8 @@ import csv
 import json
 import os
 import pprint
+import pandas
+
 
 # Relative ref
 
@@ -35,11 +37,18 @@ with open(DIR + "/example-data/Price data from year 2003 to date/alldata.csv") a
     	output.append(item)
 
 
-
-
 output_json = json.dumps(output)
 
 # Check
 
 pp = pprint.PrettyPrinter(indent=4)
-pp.pprint(output_json)
+
+for item in output:
+    if item["item"]=="10":
+        print item
+
+
+
+    
+
+

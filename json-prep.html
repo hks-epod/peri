@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+</head>
+
+<script>
+
+// Using d3.map, d3.rollup, etc.
+
+function nodify(d, i) {
+	// Destringing, etc.
+	d.avg = +d.avg;
+	d.ctyp = +d.ctyp;
+	d.itm = +d.itm;
+	d.pra = +d.pra;
+	d.prb = +d.prb;
+	d.sortcod = +d.sortcod;
+	d.wek = +d.wek;
+	d.div = +d.div;
+
+}
+
+function viz(data) {
+
+	console.log(data);
+
+	dataset = d3.nest()
+				.key(function(d) { return d.div; })
+				.key(function(d) { return d.itm; })
+				.entries(data);
+
+	console.log(dataset);
+
+}
+
+d3.csv("example-data/Price data from year 2003 to date/alldata.csv", nodify, viz);
+
+
+</script>
+
+</html>
