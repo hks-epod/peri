@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+  <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+  <script src="metrics-graphics-2.6.0/dist/metricsgraphics.min.js" charset="utf-8"></script>
+  <link rel="stylesheet" href="metrics-graphics-2.6.0/dist/metricsgraphics.css">
+</head>
+
+<body>
+
+
+
+</body>
+<script>
+
+// Trying it in MG format
+d3.json('example-data/alldata.json', function(data) {
+    data = MG.convert.date(data, 'date');
+    MG.data_graphic({
+        title: "PERI demo",
+        description: "Will this work with nested data?",
+        data: data,
+        width: 600,
+        height: 200,
+        right: 40,
+        // target: document.getElementById('fake_users1'),
+        // target: '#confidence_band',
+        show_secondary_x_label: false,
+        show_confidence_band: ['pra', 'prb'],
+        x_extended_ticks: true
+    });
+});
+
+</script>
+
+</html>

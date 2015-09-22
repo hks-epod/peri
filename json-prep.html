@@ -9,16 +9,27 @@
 
 // Using d3.map, d3.rollup, etc.
 
+
+
 function nodify(d, i) {
 	// Destringing, etc.
 	// (+ changes types, returning 0 instead of null/missing)
 
+// Not working :(
+	// var strings = [d.avg, d.ctyp, d.pra, d.prb];
+	// var stringsLength = strings.length;
+
+	// for (i=0; i++; i<stringsLength) {
+	// 	if (strings[i]==="") {
+	// 		return NaN;
+	// 	} else {
+	// 		strings[i] = +strings[i];
+	// 	}
+	// };
+
 	d.avg = +d.avg;
-	d.ctyp = +d.ctyp;
 	d.pra = +d.pra;
 	d.prb = +d.prb;
-	d.sortcod = +d.sortcod;
-	d.wek = +d.wek;
 
 	return d;
 

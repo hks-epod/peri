@@ -62,9 +62,10 @@ So we need to `reshape` it from wide to long. Final, desired output would be a J
 ### TODO
 
 1. ~~Get `git` set up.~~
-2. ~~Convert `.dbf` to `.csv`.~~
-3. Does that nested JSON make sense?
-4. Convert `.csv` into nested `.json`. 
+2. ~~Convert `.dbf` to `.csv`.~~ See `cleaning.py`.
+3. ~~Does that nested JSON make sense?~~
+4. ~~Convert `.csv` into nested `.json`.~~ See `json-prep.html` for the actual conversion.
+5. First go at MetricsGraphics.js. 
 
 
 
