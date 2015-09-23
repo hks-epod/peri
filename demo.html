@@ -9,23 +9,62 @@
 </head>
 
 <body>
-<div id="multiLine"></div>
-<div class="legend"></div>
-
-
+	<div id="multiLine"></div>
+	<div class="legend"></div>
+	<div id="userProduct"></div>
+	<div id="userRegion"></div>
 </body>
+
 <script>
 
-// THE PRODUCT WILL BE SELECTED FROM A DROPDOWN
-var product = 'RAWA/SUJI';
+var product = "RAWA/SUJI", //hard-coded now; gets updated in dropdown.on()
+	testRegion = [];
+
+console.log(testRegion);
+
+var dropdown = d3.select("#userProduct")
+  .append("select");
+
+var checkboxes = d3.select("#userRegion");
 
 d3.json('example-data/alldata.json', function(data) {
 
   var regions = Object.keys(data[product]);
   var chartData = prepForChart(data[product],regions);
+  var productNames = Object.keys(data);
 
-  console.log(chartData)
+  console.log(product);
+  console.log(regions);
 
+// Dropdown: Products
+    dropdown
+      .on("change", function(d) {
+        product = d3.select(this).property("value");
+        console.log(product);
+      });
+
+    dropdown.selectAll("option")
+      .data(productNames)
+      .enter()
+        .append("option")
+        .attr("value", function (d) { return d; })
+        .text(function (d) { return d; });
+
+// Checkboxes: Regions
+	checkboxes.on("checked", function(d) {
+			console.log(region);
+		});
+
+	checkboxes.selectAll("input")
+		.data(regions)
+		.enter()
+		.append("label")
+			.text(function(d) { return d; })
+		.append("input")
+			.attr("type", "checkbox")
+			.attr("value", function(d) { return d; });
+
+// Viz
   MG.data_graphic({
       title: "PERI demo",
       data: chartData,
