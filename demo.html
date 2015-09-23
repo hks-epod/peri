@@ -15,9 +15,11 @@
 </body>
 <script>
 
-// Trying it in MG format
 d3.json('example-data/alldata.json', function(data) {
-    data = MG.convert.date(data, 'date');
+    for (var i = 0; i < data.length; i++) {
+        data[i] = MG.convert.date(data[i], 'date');
+    }
+
     MG.data_graphic({
         title: "PERI demo",
         description: "Will this work with nested data?",
@@ -25,13 +27,13 @@ d3.json('example-data/alldata.json', function(data) {
         width: 600,
         height: 200,
         right: 40,
-        // target: document.getElementById('fake_users1'),
-        // target: '#confidence_band',
-        show_secondary_x_label: false,
-        show_confidence_band: ['pra', 'prb'],
-        x_extended_ticks: true
+        target: '#fake_users2',
+        legend: ['RAWA/SUJI'],
+        legend_target: '.legend'
     });
 });
+
+
 
 </script>
 

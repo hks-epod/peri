@@ -8,9 +8,6 @@
 <script>
 
 // Using d3.map, d3.rollup, etc.
-
-
-
 function nodify(d, i) {
 
 	function deString(str) {
@@ -36,7 +33,7 @@ function viz(data) {
 				.key(function(d) { return d.itm; })
 				.rollup(function(v) {
 					return v.map(function(d) {
-						return [d.date,d.avg]
+						return {"date": d.date, "price": d.avg};
 					});
 				})
 				.map(data);

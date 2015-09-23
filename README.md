@@ -30,31 +30,35 @@ where
 
 So we need to `reshape` it from wide to long. Final, desired output would be a JSON array of commodities, where each commodity is an object with date-price data.
 
+Currently:
+```javascript
+{
+	"Bahawalpur": {
+		"(item 1)": [{"date": x, "price": y},...,{"date": x, "price": y}],
+		"(item 2)": [{"date": x, "price": y},...,{"date": x, "price": y}]
+	},
+	"D.G. Khan": { ... }
+}
+```
+
+Goal:
 ```javascript
 [
 	{
-		"item": 01
-		"regions": [
-			{
-				"div": 01
-				"history": [{ "date": 2003-08-01, "min": 10, "max": 11},...,{"date": 2015-09-22, "min": 12, "max": 13}]
-			} //division closer			
-		] //price-history across all divisions closer
-	}, //item closer
-	{
-		"item": 02
-		"regions": [
-			{
-				"div": 01
-				"history": [{ "date": 2003-08-01, "min": 55, "max": 57},...,{"date": 2015-09-22, "min": 100, "max": 103}]
-			} //division closer			
-		] //price-history across all divisions closer
-	} //item closer
+	"region": "Bahawalpur",
+	"items": [
+		{"(item 1)": [[{"date": x, "price": y},...,{"date": x, "price": y}]},
+		{"(item 2)": [[{"date": x, "price": y},...,{"date": x, "price": y}]},
+		]
+	}, {
+	"region": "D.G. Khan",
+	"items": [
+		{"(item 1)": [[{"date": x, "price": y},...,{"date": x, "price": y}]},
+		{"(item 2)": [[{"date": x, "price": y},...,{"date": x, "price": y}]},
+		]
+	}
 ]
-
 ```
-
-
 
 ### Resources
 * [MetricsGraphics.js - Data visualization library](http://metricsgraphicsjs.org/)
@@ -66,6 +70,9 @@ So we need to `reshape` it from wide to long. Final, desired output would be a J
 3. ~~Does that nested JSON make sense?~~
 4. ~~Convert `.csv` into nested `.json`.~~ See `json-prep.html` for the actual conversion.
 5. First go at MetricsGraphics.js. 
+6. Is the JSON in the right format for MetricsGraphics?
+7. `alldata.json`: convert object into array of objects?
+8. `alldata.json`: `"item": d.itm`?
 
 
 
