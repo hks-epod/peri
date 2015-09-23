@@ -28,12 +28,18 @@ function nodify(d, i) {
 
 function viz(data) {
 
+	var parseDate = d3.time.format("%d%b%Y").parse;
+	var formatDate = d3.time.format("%Y-%m-%d");
+
 	dataset = d3.nest()
-				.key(function(d) { return d.div; })
 				.key(function(d) { return d.itm; })
+				.key(function(d) { return d.div; })
 				.rollup(function(v) {
+					v.sort(function(a,b) {
+			        	return parseDate(a.date) - parseDate(b.date);
+			      	});
 					return v.map(function(d) {
-						return {"date": d.date, "price": d.avg};
+						return {"date": formatDate(parseDate(d.date)), "price": d.avg};
 					});
 				})
 				.map(data);

@@ -2,35 +2,56 @@
 <html>
 <head>
   <meta charset="utf-8">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
   <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
-  <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
-  <script src="metrics-graphics-2.6.0/dist/metricsgraphics.min.js" charset="utf-8"></script>
+  <script src="metrics-graphics-2.6.0/dist/metricsgraphics.js" charset="utf-8"></script>
   <link rel="stylesheet" href="metrics-graphics-2.6.0/dist/metricsgraphics.css">
 </head>
 
 <body>
-
+<div id="multiLine"></div>
+<div class="legend"></div>
 
 
 </body>
 <script>
 
-d3.json('example-data/alldata.json', function(data) {
-    for (var i = 0; i < data.length; i++) {
-        data[i] = MG.convert.date(data[i], 'date');
-    }
+// THE PRODUCT WILL BE SELECTED FROM A DROPDOWN
+var product = 'RAWA/SUJI';
 
-    MG.data_graphic({
-        title: "PERI demo",
-        description: "Will this work with nested data?",
-        data: data,
-        width: 600,
-        height: 200,
-        right: 40,
-        target: '#fake_users2',
-        legend: ['RAWA/SUJI'],
-        legend_target: '.legend'
-    });
+d3.json('example-data/alldata.json', function(data) {
+
+  var regions = Object.keys(data[product]);
+  var chartData = prepForChart(data[product],regions);
+
+  console.log(chartData)
+
+  MG.data_graphic({
+      title: "PERI demo",
+      data: chartData,
+      width: 600,
+      height: 300,
+      right: 40,
+      // missing_is_hidden: true,
+      interpolate:'basic',
+      target: '#multiLine',
+      y_accessor: 'price',
+      x_accessor: 'date',
+      legend: regions,
+      legend_target: '.legend'
+  });
+
+function prepForChart(productData,regions) {
+  var array = [];
+  regions.forEach(function(region) { // reshape data structure for MG: convert array of key value pairs into array of arrays
+    array.push(productData[region]);
+  });
+
+  for (var i = 0; i < array.length; i++) {
+      array[i] = MG.convert.date(array[i], 'date');
+  }
+  return array;
+}
 });
 
 
