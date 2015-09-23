@@ -69,10 +69,12 @@ Goal:
 2. ~~Convert `.dbf` to `.csv`.~~ See `cleaning.py`.
 3. ~~Does that nested JSON make sense?~~
 4. ~~Convert `.csv` into nested `.json`.~~ See `json-prep.html` for the actual conversion.
-5. First go at MetricsGraphics.js. 
-6. Is the JSON in the right format for MetricsGraphics?
-7. `alldata.json`: convert object into array of objects?
-8. `alldata.json`: `"item": d.itm`?
+5. ~~First go at MetricsGraphics.js.~~
+6. ~~Is the JSON in the right format for MetricsGraphics?~~
+7. ~~`alldata.json`: convert object into array of objects?~~
+8. ~~`alldata.json`: `"item": d.itm`?~~
+9. Make pretty.
+10. Standardize axes?
 
 
 
