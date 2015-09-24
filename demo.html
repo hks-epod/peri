@@ -6,19 +6,51 @@
   <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
   <script src="metrics-graphics-2.6.0/dist/metricsgraphics.js" charset="utf-8"></script>
   <link rel="stylesheet" href="metrics-graphics-2.6.0/dist/metricsgraphics.css">
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>
+  <title>PERI: Demo viz</title>
 </head>
+
+<style>
+	
+.legend, #userProduct, #userRegion {
+	font: 300 10px "Opens Sans", sans-serif;
+}
+
+.mg-x-axis, .mg-y-axis {
+	font: 300 15px "Opens Sans", sans-serif;
+}
+
+.mg-chart-title{
+	font: 300 24px "Opens Sans", sans-serif;	
+}
+
+#userProduct, #userRegion {
+	margin: 2px;
+	position: absolute;
+	top: 100px;
+	left: 700px;
+}
+
+#userRegion {
+	top: 175px;
+}
+
+#userRegion label {
+    display: block;
+    padding-left: 15px;
+    text-indent: -15px;
+}
+
+</style>
 
 <body>
 	<div id="multiLine"></div>
 	<div class="legend"></div>
-	<div id="userProduct"></div>
-	<div id="userRegion"></div>
+	<div id="userProduct"><p>Select a commodity:</p></div>
+	<div id="userRegion"><p>Select region(s):</p></div>
 </body>
 
 <script>
-
-// var product = "RAWA/SUJI", //hard-coded now; gets updated in dropdown.on()
-	// testRegion = [];
 
 var dropdown = d3.select("#userProduct")
   .append("select");
