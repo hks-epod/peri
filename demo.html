@@ -57,14 +57,13 @@ var dropdown = d3.select("#userProduct")
 
 var checkboxes = d3.select("#userRegion");
 
-
-
 d3.json('example-data/alldata.json', function(data) {
 
   var product = "RAWA/SUJI",
   	regions = Object.keys(data[product]),
   	productNames = Object.keys(data),
   	newRegions = [];
+
 
 // Dropdown: Products
     dropdown
@@ -98,6 +97,8 @@ d3.json('example-data/alldata.json', function(data) {
 
 				var region = d3.select(this).property("value"),
 					index = newRegions.indexOf(region);
+
+				// console.log(regions);
 					
 				if (d3.select(this).attr("class")=="on") {
 					d3.select(this).attr("class", "off");
@@ -115,6 +116,8 @@ d3.json('example-data/alldata.json', function(data) {
 					regions = newRegions;
 				}
 
+				// console.log(regions);
+
 				draw();
 
 			});
@@ -122,8 +125,10 @@ d3.json('example-data/alldata.json', function(data) {
 
 
 	function draw() {
-		
+
+		// console.log(regions);
 		var chartData = prepForChart(data[product],regions);
+		// console.log(chartData);
 		  
 		  MG.data_graphic({
 		      title: "PERI demo",
@@ -147,10 +152,13 @@ d3.json('example-data/alldata.json', function(data) {
 	    array.push(productData[region]);
 	  });
 
+
 	  for (var i = 0; i < array.length; i++) {
-	      array[i] = MG.convert.date(array[i], 'date');
+	      array[i] = MG.convert.date(array[i], 'date'); //this breaks when we filter regions
 	  }
+
 	  return array;
+
 	} //prepForChart()
 
 	window.onload = draw()
