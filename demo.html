@@ -88,7 +88,8 @@ d3.json('example-data/alldata.json', function(data) {
 			.text(function(d) { return d; })
 		.append("input")
 			.attr("type", "checkbox")
-			.attr("class", "off")
+			.attr("checked",true)
+			.attr("class", "on")
 			.attr("value", function(d) { return d; });
 
 
@@ -97,8 +98,6 @@ d3.json('example-data/alldata.json', function(data) {
 
 				var region = d3.select(this).property("value"),
 					index = newRegions.indexOf(region);
-
-				// console.log(regions);
 					
 				if (d3.select(this).attr("class")=="on") {
 					d3.select(this).attr("class", "off");
@@ -116,8 +115,7 @@ d3.json('example-data/alldata.json', function(data) {
 					regions = newRegions;
 				}
 
-				// console.log(regions);
-
+				// Doesn't update until you click on commodity drop-down as well
 				draw();
 
 			});
@@ -126,9 +124,7 @@ d3.json('example-data/alldata.json', function(data) {
 
 	function draw() {
 
-		// console.log(regions);
 		var chartData = prepForChart(data[product],regions);
-		// console.log(chartData);
 		  
 		  MG.data_graphic({
 		      title: "PERI demo",
@@ -154,7 +150,7 @@ d3.json('example-data/alldata.json', function(data) {
 
 
 	  for (var i = 0; i < array.length; i++) {
-	      array[i] = MG.convert.date(array[i], 'date'); //this breaks when we filter regions
+	      array[i] = MG.convert.date(array[i], 'date'); //this breaks when we filter regions and haven't selected from the dropdown 
 	  }
 
 	  return array;
@@ -162,6 +158,7 @@ d3.json('example-data/alldata.json', function(data) {
 	} //prepForChart()
 
 	window.onload = draw()
+
 
 }); //d3.json()
 
