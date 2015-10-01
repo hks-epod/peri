@@ -1725,7 +1725,7 @@ function mg_add_x_tick_labels(g, args) {
                         return args.scales.X(d).toFixed(2);
                     })
                     .attr('y', (args.height - args.bottom + args.xax_tick_length * 7 / 1.3).toFixed(2))
-                    .attr('dy', args.use_small_class ? -3 : 0)
+                    .attr('dy', args.use_small_class ? -3 : 3)
                     .attr('text-anchor', 'middle')
                     .text(function(d) {
                         return yformat(new Date(d));
@@ -2518,6 +2518,7 @@ MG.button_layout = function(target) {
             if (continueWithDefault !== false) {
                 for (var i = args.data.length - 1; i >= 0; i--) {
                     this_data = args.data[i];
+                    console.log(i)
 
                     // passing the data for the current line
                     MG.call_hook('line.before_each_series', [this_data, args]);
@@ -2531,6 +2532,7 @@ MG.button_layout = function(target) {
                     args.data[i].line_id = line_id;
 
                     if (this_data.length === 0) {
+                        svg.select('path.mg-main-line.mg-line' + (line_id) + '-color').remove();
                         continue;
                     }
 
@@ -2580,7 +2582,6 @@ MG.button_layout = function(target) {
                     if (!existing_line.empty()) {
                         //$(svg.node()).find('.mg-y-axis').after($(existing_line.node()).detach());
                         svg.select('.mg-y-axis').node().parentNode.appendChild(existing_line.node());
-
                         var lineTransition = existing_line
                             .transition()
                             .duration(updateTransitionDuration);
@@ -5083,7 +5084,7 @@ MG.convert.date = function(data, accessor, time_format) {
     time_format = (typeof time_format === "undefined") ? '%Y-%m-%d' : time_format;
     data = data.map(function(d) {
         var fff = d3.time.format(time_format);
-        d[accessor] = fff.parse(d[accessor]);
+        d[accessor] = (d[accessor] instanceof Date ? d[accessor] : fff.parse(d[accessor]));
         return d;
     });
 

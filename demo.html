@@ -12,17 +12,23 @@
 
 <style>
 	
+
 .legend, #userProduct, #userRegion {
 	font: 300 10px "Opens Sans", sans-serif;
 }
 
-.mg-x-axis, .mg-y-axis {
+.mg-x-axis, .mg-y-axis, .mg-active-datapoint {
 	font: 300 15px "Opens Sans", sans-serif;
 }
 
 .mg-chart-title{
 	font: 300 24px "Opens Sans", sans-serif;	
 }
+
+.mg-missing-text {
+	font: 500 15px "Opens Sans", sans-serif;
+}
+
 
 #userProduct, #userRegion {
 	margin: 2px;
@@ -59,18 +65,9 @@ var checkboxes = d3.select("#userRegion");
 
 d3.json('example-data/alldata.json', function(data) {
 
-  var product = "RAWA/SUJI",
-  	regions = Object.keys(data[product]),
-  	productNames = Object.keys(data),
-  	newRegions = [];
+	var productNames = Object.keys(data);
 
-
-// Dropdown: Products
-    dropdown
-      .on("change", function(d) {
-        product = d3.select(this).property("value");
-        draw();
-      });
+	// Dropdown: Products
 
     dropdown.selectAll("option")
       .data(productNames)
@@ -79,90 +76,93 @@ d3.json('example-data/alldata.json', function(data) {
         .attr("value", function (d) { return d; })
         .text(function (d) { return d; });
 
-// Checkboxes: Regions
+    dropdown
+      .on("change", function(d) {
+        product = d3.select(this).property("value");
+        draw(data,product,selectedRegions,allRegions);
+      });
 
+	var product = dropdown.property("value");
+	var allRegions = Object.keys(data[product]);
+	var selectedRegions = {};
+	allRegions.forEach(function(d) {
+		selectedRegions[d] = true;
+	});
+
+	// Checkboxes: Regions
 	checkboxes.selectAll("input")
-		.data(regions)
+		.data(allRegions)
 		.enter()
 		.append("label")
 			.text(function(d) { return d; })
 		.append("input")
 			.attr("type", "checkbox")
 			.attr("checked",true)
-			.attr("class", "on")
 			.attr("value", function(d) { return d; });
 
 
 	checkboxes.selectAll("input")
-			.on("click", function(d) {
+		.on("click", function(d) {
+			var checked = $("input[type=checkbox]:checked");
+			var regions = checked.map(function(i) { return $(this).val() }).get();
+			allRegions.forEach(function(region) {
+				if (regions.indexOf(region)===-1) selectedRegions[region] = false;
+				else selectedRegions[region] = true;
+			})
 
-				var region = d3.select(this).property("value"),
-					index = newRegions.indexOf(region);
-					
-				if (d3.select(this).attr("class")=="on") {
-					d3.select(this).attr("class", "off");
-					newRegions.splice(index, 1);
-				} else if (d3.select(this).attr("class")=="off") {
-					d3.select(this).attr("class", "on");
-					newRegions.push(region);
-				}
+			draw(data,product,selectedRegions,allRegions);
+		});
 
-
-				if (newRegions.length <= 0) {
-					console.log("Don't update -regions-.");
-					regions = Object.keys(data[product]);
-				} else if (newRegions.length > 0) {
-					regions = newRegions;
-				}
-
-				// Doesn't update until you click on commodity drop-down as well
-				draw();
-
-			});
-
-
-
-	function draw() {
-
-		var chartData = prepForChart(data[product],regions);
-		  
-		  MG.data_graphic({
-		      title: "PERI demo",
-		      data: chartData,
-		      width: 600,
-		      height: 300,
-		      right: 40,
-		      // missing_is_hidden: true,
-		      interpolate:'basic',
-		      target: '#multiLine',
-		      y_accessor: 'price',
-		      x_accessor: 'date',
-		      legend: regions,
-		      legend_target: '.legend'
-		  });
-	} //draw()
-
-	function prepForChart(productData,regions) {
-	  var array = [];
-	  regions.forEach(function(region) { // reshape data structure for MG: convert array of key value pairs into array of arrays
-	    array.push(productData[region]);
-	  });
-
-
-	  for (var i = 0; i < array.length; i++) {
-	      array[i] = MG.convert.date(array[i], 'date'); //this breaks when we filter regions and haven't selected from the dropdown 
-	  }
-
-	  return array;
-
-	} //prepForChart()
-
-	window.onload = draw()
-
+	draw(data,product,selectedRegions,allRegions);
 
 }); //d3.json()
 
+function draw(data,product,selectedRegions,allRegions) {
 
+	var chartData = prepForChart(data[product],selectedRegions,allRegions);
+	var chart_type = (chartData.length>0 ? 'line' : 'missing-data');
+	  
+	MG.data_graphic({
+		title: "PERI demo",
+		area: false,
+		width: 600,
+		height: 300,
+		right: 40,
+		data: chartData,
+		interpolate:'linear',
+		target: '#multiLine',
+		y_accessor: 'price',
+		x_accessor: 'date',
+		legend: allRegions,
+		legend_target: '.legend',
+		chart_type: chart_type,
+		missing_text: 'Select a region',
+		y_extended_ticks: true,
+		// missing_is_hidden: true,
+		mouseover: function(d, i) {
+            var df = d3.time.format('%b %d, %Y');
+            var date = df(d.date);
+            var y_val = (d.price === 0) ? 'no data' : d.price;
+            var region = allRegions[d.line_id-1]
+            d3.select('#multiLine svg .mg-active-datapoint')
+                .text(region + '  |  ' + product + '  |  ' + date +  '  |  Rs. ' + y_val);
+        }
+	});
+
+	function prepForChart(productData,selectedRegions,allRegions) {
+		var array = [];
+		allRegions.forEach(function(region) { // reshape data structure for MG: convert array of key value pairs into array of arrays
+			if (selectedRegions[region] === true) array.push(productData[region]);
+			else array.push([]);
+		});
+
+		for (var i = 0; i < array.length; i++) {
+			array[i] = MG.convert.date(array[i], 'date');
+		}
+		return array;
+	} //prepForChart()
+
+} //draw()
 </script>
 
 </html>
