@@ -47,6 +47,10 @@
     text-indent: -15px;
 }
 
+#unselect-button:hover {
+	cursor: pointer;
+}
+
 </style>
 
 <body>
@@ -113,9 +117,20 @@ d3.json('example-data/alldata.json', function(data) {
 			draw(data,product,selectedRegions,allRegions);
 		});
 
+	var unselect = d3.select("#userRegion")
+		.append("p")
+		.attr("id", "unselect-button")
+		.text("Clear all");
+
+	unselect.on("click", function() {
+			checkboxes.selectAll('input')
+				.property('checked', false);
+		});
+
 	draw(data,product,selectedRegions,allRegions);
 
 }); //d3.json()
+
 
 function draw(data,product,selectedRegions,allRegions) {
 
