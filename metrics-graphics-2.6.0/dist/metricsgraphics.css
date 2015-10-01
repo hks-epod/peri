@@ -170,6 +170,8 @@
     stroke: red;
 }
 
+
+/* Chart lines  */
 .mg-line1-color {
     stroke: #4040e8;
 }
@@ -210,6 +212,39 @@
     fill: #5c5c5c;
 }
 
+.mg-line6-color {
+    stroke: red;
+}
+
+.mg-hover-line6-color {
+    fill: red;
+}
+
+.mg-line7-color {
+    stroke: blue;
+}
+
+.mg-hover-line7-color {
+    fill: blue;
+}
+
+.mg-line8-color {
+    stroke: black;
+}
+
+.mg-hover-line8-color {
+    fill: black;
+}
+
+.mg-line9-color {
+    stroke: green;
+}
+
+.mg-hover-line9-color {
+    fill: green;
+}
+
+/* Legend, axes */
 .mg-line-legend text {
     font-size: 0.9rem;
     font-weight: 300;
@@ -240,6 +275,27 @@
     color: #5c5c5c;
     fill: #5c5c5c;
 }
+
+.mg-line6-legend-color {
+    color: red;
+    fill: red;
+}
+
+.mg-line7-legend-color {
+    color: blue;
+    fill: blue;
+}
+
+.mg-line8-legend-color {
+    color: black;
+    fill: black;
+}
+
+.mg-line9-legend-color {
+    color: green;
+    fill: green;
+}
+
 
 .mg-main-area-solid svg .mg-main-area {
     fill: #ccccff;
@@ -375,36 +431,4 @@ circle.mg-points-mono {
 
 .mg-year-marker-small text {
     font-size: 0.6rem;
-}
-
-.mg-line6-color {
-    stroke: steelblue;
-}
-
-.mg-area6-color {
-    fill: steelblue;
-}
-
-.mg-hover-line6-color {
-    fill: steelblue;
-}
-
-.mg-line6-legend-color {
-    color: steelblue;
-}
-
-.mg-line7-color {
-    stroke: grey;
-}
-
-.mg-area7-color {
-    fill: grey;
-}
-
-.mg-hover-line7-color {
-    fill: grey;
-}
-
-.mg-line7-legend-color {
-    color: grey;
 }
