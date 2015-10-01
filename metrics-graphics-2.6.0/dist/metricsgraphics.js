@@ -2518,7 +2518,6 @@ MG.button_layout = function(target) {
             if (continueWithDefault !== false) {
                 for (var i = args.data.length - 1; i >= 0; i--) {
                     this_data = args.data[i];
-                    console.log(i)
 
                     // passing the data for the current line
                     MG.call_hook('line.before_each_series', [this_data, args]);

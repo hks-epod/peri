@@ -138,7 +138,6 @@ function draw(data,product,selectedRegions,allRegions) {
 		chart_type: chart_type,
 		missing_text: 'Select a region',
 		y_extended_ticks: true,
-		// missing_is_hidden: true,
 		mouseover: function(d, i) {
             var df = d3.time.format('%b %d, %Y');
             var date = df(d.date);
@@ -151,10 +150,20 @@ function draw(data,product,selectedRegions,allRegions) {
 
 	function prepForChart(productData,selectedRegions,allRegions) {
 		var array = [];
+		var count = 0;
 		allRegions.forEach(function(region) { // reshape data structure for MG: convert array of key value pairs into array of arrays
-			if (selectedRegions[region] === true) array.push(productData[region]);
-			else array.push([]);
+			if (selectedRegions[region] === true) {
+				array.push(productData[region]);
+				count += 1;
+			}
+			else {
+				array.push([]);
+			}
 		});
+
+		if (count===0) { // for chart_type: 'missing-data' to work we need to pass in an empty array, not an array of all empty arrays
+			array = [];
+		}
 
 		for (var i = 0; i < array.length; i++) {
 			array[i] = MG.convert.date(array[i], 'date');
