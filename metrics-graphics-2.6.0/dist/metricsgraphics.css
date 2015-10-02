@@ -25,6 +25,22 @@
     fill: #5c5c5c;
 }
 
+.mg-area6-color {
+    fill: red;
+}
+
+.mg-area7-color {
+    fill: blue;
+}
+
+.mg-area8-color {
+    fill: black;
+}
+
+.mg-area9-color {
+    fill: green;
+}
+
 .mg-barplot rect.mg-bar {
     shape-rendering: auto;
     fill: #b6b6fc;
