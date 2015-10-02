@@ -41,14 +41,15 @@
 	top: 175px;
 }
 
-#userRegion label {
-    display: block;
-    padding-left: 15px;
-    text-indent: -15px;
-}
-
-#unselect-button:hover {
+#unselect-button:hover, #selectall-button:hover {
 	cursor: pointer;
+}
+ul {
+	list-style: none;
+	padding-left:0;
+}
+.chkbox {
+	padding-left: 3px;	
 }
 
 </style>
@@ -65,7 +66,7 @@
 var dropdown = d3.select("#userProduct")
   .append("select");
 
-var checkboxes = d3.select("#userRegion");
+var checkboxes = d3.select("#userRegion").append("ul");
 
 d3.json('example-data/alldata.json', function(data) {
 
@@ -94,16 +95,21 @@ d3.json('example-data/alldata.json', function(data) {
 	});
 
 	// Checkboxes: Regions
-	checkboxes.selectAll("input")
-		.data(allRegions)
-		.enter()
-		.append("label")
-			.text(function(d) { return d; })
-		.append("input")
+
+	allRegions.forEach(function(d) {
+
+		var li = checkboxes.append("li");
+		li.append("input")
 			.attr("type", "checkbox")
 			.attr("checked",true)
-			.attr("value", function(d) { return d; });
-
+			.attr("value", d)
+			.attr("id",d)
+			
+		li.append("label")
+			.text(d)
+			.attr("for",d)
+			.attr("class","chkbox")
+	})
 
 	checkboxes.selectAll("input")
 		.on("click", function(d) {
@@ -125,6 +131,32 @@ d3.json('example-data/alldata.json', function(data) {
 	unselect.on("click", function() {
 			checkboxes.selectAll('input')
 				.property('checked', false);
+			var checked = $("input[type=checkbox]:checked");
+			var regions = checked.map(function(i) { return $(this).val() }).get();
+			allRegions.forEach(function(region) {
+				if (regions.indexOf(region)===-1) selectedRegions[region] = false;
+				else selectedRegions[region] = true;
+			})
+
+			draw(data,product,selectedRegions,allRegions);
+		});
+
+	var selectAll = d3.select("#userRegion")
+		.append("p")
+		.attr("id", "selectall-button")
+		.text("Select all");
+
+	selectAll.on("click", function() {
+			checkboxes.selectAll('input')
+				.property('checked', true);
+			var checked = $("input[type=checkbox]:checked");
+			var regions = checked.map(function(i) { return $(this).val() }).get();
+			allRegions.forEach(function(region) {
+				if (regions.indexOf(region)===-1) selectedRegions[region] = false;
+				else selectedRegions[region] = true;
+			})
+
+			draw(data,product,selectedRegions,allRegions);
 		});
 
 	draw(data,product,selectedRegions,allRegions);
@@ -138,7 +170,7 @@ function draw(data,product,selectedRegions,allRegions) {
 	var chart_type = (chartData.length>0 ? 'line' : 'missing-data');
 	  
 	MG.data_graphic({
-		title: "PERI demo",
+		title: "Commodity Prices Across Divisions of Punjab",
 		area: false,
 		width: 600,
 		height: 300,
